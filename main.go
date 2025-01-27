@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 )
 
 // GitHub ActionsのIssue作成時に実行されることを想定
@@ -15,16 +16,6 @@ func main() {
 	}
 	fmt.Println("GITHUB_EVENT_PATH:", eventPath)
 
-	// eventPathからファイルを読み込む
-	file, err := os.Open(eventPath)
-	if err != nil {
-		fmt.Println("ファイルが開けませんでした")
-		return
-	}
-	defer file.Close()
-
-	// Issue番号を取得
-	var issueNumber string
-	fmt.Fscanf(file, `{"issue":{"number":%s`, &issueNumber)
-	fmt.Println("Issue番号:", issueNumber)
+	// cat $GITHUB_EVENT_PATH | jq .issue.number
+	exec.Command("cat", eventPath).Run()
 }
