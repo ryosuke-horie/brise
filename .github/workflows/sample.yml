@@ -1,7 +1,8 @@
 name: sample
 
 on:
-  workflow_dispatch:
+  issues:
+    types: [opened]
 
 jobs:
     build:
