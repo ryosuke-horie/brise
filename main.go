@@ -2,20 +2,26 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 // GitHub ActionsのIssue作成時に実行されることを想定
 // Issue番号を取得し表示する
 func main() {
-	eventPath, exists := os.LookupEnv("GITHUB_EVENT_PATH")
-	if !exists {
-		fmt.Println("環境変数 GITHUB_EVENT_PATH が見つかりません")
-		return
+	eventPath := os.Getenv("GITHUB_EVENT_PATH")
+	if eventPath == "" {
+		log.Fatal("GITHUB_EVENT_PATH is not set")
 	}
-	fmt.Println("GITHUB_EVENT_PATH:", eventPath)
 
-	// cat $GITHUB_EVENT_PATH | jq .issue.number
-	exec.Command("cat", eventPath).Run()
+	cmd := exec.Command("sh", "-c", fmt.Sprintf("cat %s | jq .issue.number", eventPath))
+	output, err := cmd.Output()
+	if err != nil {
+		log.Fatalf("コマンド実行に失敗しました。: %v", err)
+	}
+
+	issueNumber := strings.TrimSpace(string(output))
+	fmt.Printf("Issue number: %s\n", issueNumber)
 }
