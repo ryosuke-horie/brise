@@ -7,6 +7,11 @@ on:
 env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+permissions:
+    contents: write      # リポジトリの内容を操作する権限
+    issues: write        # イシューを作成・編集する権限
+    pull-requests: write # 必要に応じてプルリクエストの権限も追加
+
 jobs:
     build:
         runs-on: ubuntu-latest

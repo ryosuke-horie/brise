@@ -24,9 +24,9 @@ func main() {
 	// ghコマンドでIssueに関連付けした、issue-[Issue番号]ブランチを作成
 	// gh issue develop [issue番号] -n issue-[issue番号]
 	cmd := exec.Command("gh", "issue", "develop", issueNumber, "-n", fmt.Sprintf("issue-%s", issueNumber))
-	output, err := cmd.Output()
+	output, err := cmd.CombinedOutput() // 標準出力と標準エラー出力を両方取得
 	if err != nil {
-		log.Fatalf("コマンド実行に失敗しました。: %v", err)
+		log.Fatalf("コマンド実行に失敗しました。: %v\n出力: %s", err, string(output))
 	}
 
 	fmt.Println(string(output))
