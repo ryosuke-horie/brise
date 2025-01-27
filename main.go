@@ -20,6 +20,16 @@ func main() {
 	// Issue番号を取得
 	issueNumber := getIssueNumber(eventPath)
 	fmt.Println("Issue Number:", issueNumber)
+
+	// ghコマンドでIssueに関連付けした、issue-[Issue番号]ブランチを作成
+	// gh issue develop [issue番号] -n issue-[issue番号]
+	cmd := exec.Command("gh", "issue", "develop", issueNumber, "-n", fmt.Sprintf("issue-%s", issueNumber))
+	output, err := cmd.Output()
+	if err != nil {
+		log.Fatalf("コマンド実行に失敗しました。: %v", err)
+	}
+
+	fmt.Println(string(output))
 }
 
 func getIssueNumber(eventPath string) string {
