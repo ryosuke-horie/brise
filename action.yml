@@ -1,0 +1,7 @@
+name: "brise"
+description: "Issue-[Issue Number] Branch Creator"
+author: "ryosuke-horie"
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
