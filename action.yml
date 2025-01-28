@@ -5,6 +5,7 @@ author: "ryosuke-horie"
 runs:
   using: "composite"
   steps:
+    - uses: actions/checkout@v4
     - uses: actions/setup-go@v2
       with:
         go-version: 1.23
