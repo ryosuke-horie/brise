@@ -7,6 +7,10 @@ inputs:
     description: "GitHub token for API access"
     required: true
     default: ${{ github.token }}
+  target-repo:
+    description: "The repository to operate on (owner/repo)"
+    required: true
+    default: ${{ github.repository }}
 
 runs:
   using: "composite"
@@ -23,3 +27,4 @@ runs:
       run: cd .github/actions/brise && go run main.go
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
+        TARGET_REPO: ${{ inputs.target-repo }}
