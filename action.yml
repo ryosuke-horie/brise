@@ -6,9 +6,12 @@ runs:
   using: "composite"
   steps:
     - uses: actions/checkout@v4
+      with:
+        repository: ryosuke-horie/brise
+        path: .github/actions/brise
     - uses: actions/setup-go@v2
       with:
         go-version: 1.23
     - name: run main.go
       shell: bash
-      run: go run main.go
+      run: cd .github/actions/brise && go run main.go
